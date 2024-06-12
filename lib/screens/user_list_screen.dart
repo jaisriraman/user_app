@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/user_list/user_list_bloc.dart';
 import '../blocs/user_list/user_list_event.dart';
 import '../blocs/user_list/user_list_state.dart';
+import '../utils/image_resource.dart';
 import '../widgets/user_card.dart';
 
 class UserListScreen extends StatefulWidget {
@@ -39,10 +40,10 @@ class _UserListScreenState extends State<UserListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Users')),
+      appBar: AppBar(title: Text('Users', style: TextStyle(fontFamily: FontResousrce.SF_Pro_Bold),)),
       body: BlocBuilder<UserListBloc, UserListState>(
         builder: (context, state) {
-          if (state is UserListLoading && _currentPage == 1) {
+          if (state is UserListLoading && _currentPage == 2) {
             return Center(child: CircularProgressIndicator());
           } else if (state is UserListLoaded) {
             return ListView.builder(
@@ -59,9 +60,9 @@ class _UserListScreenState extends State<UserListScreen> {
               },
             );
           } else if (state is UserListError) {
-            return Center(child: Text('Failed to load users'));
+            return Center(child: Text('Failed to load users', style: TextStyle(fontFamily: FontResousrce.SF_Pro_Regular),));
           }
-          return Center(child: Text('No users'));
+          return Center(child: Text('No users', style: TextStyle(fontFamily: FontResousrce.SF_Pro_Regular),));
         },
       ),
     );
