@@ -11,21 +11,25 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: NetworkImage(user.avatar),
+      elevation: 5,
+      margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(user.avatar),
+          ),
+          title: Text('${user.firstName} ${user.lastName}', style: TextStyle(fontFamily: FontResousrce.SF_Pro_Bold)),
+          subtitle: Text(user.email, style: TextStyle(fontFamily: FontResousrce.SF_Pro_Regular),),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserDetailScreen(userId: user.id),
+              ),
+            );
+          },
         ),
-        title: Text('${user.firstName} ${user.lastName}', style: TextStyle(fontFamily: FontResousrce.SF_Pro_Bold)),
-        subtitle: Text(user.email, style: TextStyle(fontFamily: FontResousrce.SF_Pro_Regular),),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UserDetailScreen(userId: user.id),
-            ),
-          );
-        },
       ),
     );
   }

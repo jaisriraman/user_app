@@ -40,30 +40,47 @@ class _UserListScreenState extends State<UserListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Users', style: TextStyle(fontFamily: FontResousrce.SF_Pro_Bold),)),
-      body: BlocBuilder<UserListBloc, UserListState>(
-        builder: (context, state) {
-          if (state is UserListLoading && _currentPage == 2) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is UserListLoaded) {
-            return ListView.builder(
-              controller: _scrollController,
-              itemCount: state.hasReachedMax
-                  ? state.users.length
-                  : state.users.length + 1,
-              itemBuilder: (context, index) {
-                if (index >= state.users.length) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return UserCard(user: state.users[index]);
-                }
-              },
+      appBar: AppBar(
+        title: Text(
+          'Users',
+          style: TextStyle(fontFamily: FontResousrce.SF_Pro_Bold),
+        ),
+      ),
+      body: Container(
+        child: BlocBuilder<UserListBloc, UserListState>(
+          builder: (context, state) {
+            if (state is UserListLoading && _currentPage == 1) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is UserListLoaded) {
+              return ListView.builder(
+                controller: _scrollController,
+                itemCount: state.hasReachedMax
+                    ? state.users.length
+                    : state.users.length + 1,
+                itemBuilder: (context, index) {
+                  if (index >= state.users.length) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return UserCard(user: state.users[index]);
+                  }
+                },
+              );
+            } else if (state is UserListError) {
+              return Center(
+                child: Text(
+                  'Failed to load users',
+                  style: TextStyle(fontFamily: FontResousrce.SF_Pro_Regular),
+                ),
+              );
+            }
+            return Center(
+              child: Text(
+                'No users',
+                style: TextStyle(fontFamily: FontResousrce.SF_Pro_Regular),
+              ),
             );
-          } else if (state is UserListError) {
-            return Center(child: Text('Failed to load users', style: TextStyle(fontFamily: FontResousrce.SF_Pro_Regular),));
-          }
-          return Center(child: Text('No users', style: TextStyle(fontFamily: FontResousrce.SF_Pro_Regular),));
-        },
+          },
+        ),
       ),
     );
   }
